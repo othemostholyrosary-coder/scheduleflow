@@ -939,6 +939,7 @@ export class UserRepository {
         },
         creationSource,
         locked,
+        trialEndsAt: rest.trialEndsAt ?? new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
         ...(organizationId && username
           ? {
               organizationId,

@@ -35,11 +35,11 @@ export const WEBAPP_URL_FOR_OAUTH = IS_PRODUCTION || IS_DEV ? WEBAPP_URL : "http
 /** @deprecated use `WEBAPP_URL` */
 export const BASE_URL = WEBAPP_URL;
 export const WEBSITE_URL = ensureProtocol(process.env.NEXT_PUBLIC_WEBSITE_URL) || "https://cal.com";
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Cal.diy";
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "ScheduleFlow";
 export const SUPPORT_MAIL_ADDRESS = process.env.NEXT_PUBLIC_SUPPORT_MAIL_ADDRESS || "help@cal.com";
-export const COMPANY_NAME = process.env.NEXT_PUBLIC_COMPANY_NAME || "Cal.com, Inc.";
+export const COMPANY_NAME = process.env.NEXT_PUBLIC_COMPANY_NAME || APP_NAME;
 export const SENDER_ID = process.env.NEXT_PUBLIC_SENDER_ID || "Cal";
-export const SENDER_NAME = process.env.NEXT_PUBLIC_SENDGRID_SENDER_NAME || "Cal.diy";
+export const SENDER_NAME = process.env.NEXT_PUBLIC_SENDGRID_SENDER_NAME || APP_NAME;
 export const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || APP_NAME;
 
 // This is the URL from which all Cal Links and their assets are served.
@@ -70,7 +70,10 @@ const CAL_DOMAINS = [".cal.com", ".cal.dev", ".cal.eu", ".cal.qa"];
 const WEBAPP_HOSTNAME = new URL(WEBAPP_URL).hostname;
 export const IS_SELF_HOSTED = !CAL_DOMAINS.some((domain) => WEBAPP_HOSTNAME.endsWith(domain));
 export const EMBED_LIB_URL = process.env.NEXT_PUBLIC_EMBED_LIB_URL || `${WEBAPP_URL}/embed/embed.js`;
-export const TRIAL_LIMIT_DAYS = 14;
+export const TRIAL_LIMIT_DAYS = 5;
+export const SUBY_CHECKOUT_URL = process.env.SUBY_CHECKOUT_URL;
+export const SUBY_WEBHOOK_SECRET = process.env.SUBY_WEBHOOK_SECRET;
+export const SUBY_ACTIVE_STATUSES = ["active", "trialing", "paid"] as const;
 export const MAX_SEATS_PER_TIME_SLOT = 1000;
 
 /** Maximum duration allowed for an event in minutes (24 hours) */

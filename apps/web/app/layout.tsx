@@ -13,6 +13,7 @@ import "../styles/globals.css";
 import { AppRouterI18nProvider } from "./AppRouterI18nProvider";
 import { Providers } from "./providers";
 import { SpeculationRules } from "./SpeculationRules";
+import { APP_NAME } from "@calcom/lib/constants";
 
 const interFont = Inter({ subsets: ["latin"], variable: "--font-sans", preload: true, display: "swap" });
 const calFont = localFont({
@@ -42,6 +43,9 @@ export const viewport = {
 };
 
 export const metadata = {
+  title: APP_NAME,
+  description: `${APP_NAME} scheduling and booking`,
+  applicationName: APP_NAME,
   icons: {
     icon: "/api/logo?type=favicon-32",
     apple: "/api/logo?type=apple-touch-icon",
