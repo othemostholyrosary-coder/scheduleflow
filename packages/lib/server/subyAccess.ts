@@ -1,7 +1,7 @@
-import crypto from "node:crypto";
+import * as crypto from "node:crypto";
 import { SUBY_ACTIVE_STATUSES } from "@calcom/lib/constants";
 
-type AccessUser = { role?: string | null; trialEndsAt?: Date | null; metadata?: unknown };
+type AccessUser = { id?: number; role?: string | null; trialEndsAt?: Date | null; metadata?: unknown };
 
 export function getSubyMetadata(metadata: unknown): Record<string, string> {
   if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return {};
