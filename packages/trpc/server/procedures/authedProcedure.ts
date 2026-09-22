@@ -1,10 +1,10 @@
+import { hasScheduleAccess } from "@calcom/lib/server/subyAccess";
+import { TRPCError } from "@trpc/server";
 import { errorConversionMiddleware } from "../middlewares/errorConversionMiddleware";
 import perfMiddleware from "../middlewares/perfMiddleware";
 import { isAdminMiddleware, isAuthed, isOrgAdminMiddleware } from "../middlewares/sessionMiddleware";
 import { procedure } from "../trpc";
 import publicProcedure from "./publicProcedure";
-import { hasScheduleAccess } from "@calcom/lib/server/subyAccess";
-import { TRPCError } from "@trpc/server";
 
 /*interface IRateLimitOptions {
   intervalInMs: number;
@@ -28,7 +28,10 @@ const isRateLimitedByUserIdMiddleware = ({ intervalInMs, limit }: IRateLimitOpti
 */
 const subscriptionAccess = isAuthed.unstable_pipe(({ ctx, next }) => {
   if (!hasScheduleAccess(ctx.user)) {
-    throw new TRPCError({ code: "FORBIDDEN", message: "Your free 5-day trial has ended. Subscribe to continue." });
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Your free 5-day trial has ended. Subscribe to continue.",
+    });
   }
   return next({ ctx });
 });
