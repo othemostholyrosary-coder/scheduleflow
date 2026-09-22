@@ -1,4 +1,5 @@
 import * as crypto from "node:crypto";
+import process from "node:process";
 import { SUBY_ACTIVE_STATUSES } from "@calcom/lib/constants";
 
 type AccessUser = { id?: number; role?: string | null; trialEndsAt?: Date | null; metadata?: unknown };
@@ -37,6 +38,10 @@ export function trialStatus(user: AccessUser, now = new Date()) {
   };
 }
 
+export function subyStatusResponse(user: AccessUser) {
+  return trialStatus(user);
+}
+
 export function subyCheckoutRedirect(user: { email: string; id: number }) {
   if (!process.env.SUBY_CHECKOUT_URL) return null;
   const url = new URL(process.env.SUBY_CHECKOUT_URL);
@@ -53,7 +58,8 @@ export function subyStatusFromEvent(event: Record<string, unknown>) {
 
 export function subyEmailFromEvent(event: Record<string, unknown>) {
   const customer = event.customer;
-  const nestedEmail = customer && typeof customer === "object" ? (customer as Record<string, unknown>).email : undefined;
+  const nestedEmail =
+    customer && typeof customer === "object" ? (customer as Record<string, unknown>).email : undefined;
   const value = event.email ?? nestedEmail;
   return typeof value === "string" ? value.toLowerCase() : null;
 }
@@ -78,7 +84,10 @@ export function verifySubySignature(rawBody: string, signature: string | null) {
   if (!signature) return false;
   const expected = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
   const normalized = signature.replace(/^sha256=/, "");
-  return normalized.length === expected.length && crypto.timingSafeEqual(Buffer.from(normalized), Buffer.from(expected));
+  return (
+    normalized.length === expected.length &&
+    crypto.timingSafeEqual(Buffer.from(normalized), Buffer.from(expected))
+  );
 }
 
 export function subyTrialEndDate(from = new Date()) {
